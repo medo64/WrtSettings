@@ -303,7 +303,7 @@ namespace WrtSettings {
         private void mnuOpen_Click(object sender, EventArgs e) {
             if (!HasSavedModifications()) { return; }
 
-            using (var frm = new OpenFileDialog() { Filter = "Auto-detect configuration|*.cfg;*.txt|AsusWRT configuration|*.cfg|Tomato configuration|*.cfg|Text file|*.txt" }) {
+            using (var frm = new OpenFileDialog() { Filter = "Auto-detect configuration|*.cfg;*.bin;*.txt|AsusWRT configuration|*.cfg|Tomato configuration|*.cfg|DD-WRT configuration|*.bin|Text file|*.txt" }) {
                 if (frm.ShowDialog(this) == DialogResult.OK) {
                     try {
                         switch (frm.FilterIndex) {
@@ -364,19 +364,21 @@ namespace WrtSettings {
         }
 
         private void mnuSaveAs_Click(object sender, EventArgs e) {
-            using (var frm = new SaveFileDialog() { Filter = "AsusWRT configuration (v1)|*.cfg|AsusWRT configuration (v2)|*.cfg|Tomato configuration|*.cfg|Text file|*.txt" }) {
+            using (var frm = new SaveFileDialog() { Filter = "AsusWRT configuration (v1)|*.cfg|AsusWRT configuration (v2)|*.cfg|Tomato configuration|*.cfg|DD-WRT configuration|*.bin|Text file|*.txt" }) {
                 switch (this.Document.Format) {
                     case NvramFormat.AsuswrtVersion1: frm.FilterIndex = 1; break;
                     case NvramFormat.AsuswrtVersion2: frm.FilterIndex = 2; break;
                     case NvramFormat.Tomato: frm.FilterIndex = 3; break;
-                    case NvramFormat.Text: frm.FilterIndex = 4; break;
+                    case NvramFormat.DDWrt: frm.FilterIndex = 4; break;
+                    case NvramFormat.Text: frm.FilterIndex = 5; break;
                 }
                 if (frm.ShowDialog(this) == DialogResult.OK) {
                     switch (frm.FilterIndex) {
                         case 1: this.Document.Format = NvramFormat.AsuswrtVersion1; break;
                         case 2: this.Document.Format = NvramFormat.AsuswrtVersion2; break;
                         case 3: this.Document.Format = NvramFormat.Tomato; break;
-                        case 4: this.Document.Format = NvramFormat.Text; break;
+                        case 4: this.Document.Format = NvramFormat.DDWrt; break;
+                        case 5: this.Document.Format = NvramFormat.Text; break;
                     }
                     try {
                         this.Document.Save(frm.FileName);

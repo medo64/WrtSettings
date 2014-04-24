@@ -21,6 +21,7 @@ namespace WrtSettings {
 
                 if (((format & NvramFormat.AsuswrtVersion1) != 0) && TryParseAsuswrtVersion1(buffer)) {
                 } else if (((format & NvramFormat.AsuswrtVersion2) != 0) && TryParseAsuswrtVersion2(buffer)) {
+                } else if (((format & NvramFormat.DDWrt) != 0) && TryParseDDWrt(buffer)) {
                 } else if (((format & NvramFormat.Tomato) != 0) && TryParseTomato(buffer)) {
                 } else if (((format & NvramFormat.Text) != 0) && TryParseText(buffer)) {
                 } else {
@@ -48,6 +49,7 @@ namespace WrtSettings {
                     case NvramFormat.AsuswrtVersion1: buffer = GetBytesForAsuswrtVersion1(); break;
                     case NvramFormat.AsuswrtVersion2: buffer = GetBytesForAsuswrtVersion2(); break;
                     case NvramFormat.Tomato: buffer = GetBytesForTomato(); break;
+                    case NvramFormat.DDWrt: buffer = GetBytesForDDWrt(); break;
                     case NvramFormat.Text: buffer = GetBytesForText(); break;
                     default: throw new InvalidOperationException("Unsupported format!");
                 }
@@ -78,7 +80,7 @@ namespace WrtSettings {
                 return false;
             }
 
-            var len = ToInt32(buffer, 4);
+            var len = ToUInt32(buffer, 4);
             if (len > (buffer.Length - 8)) {
                 Debug.WriteLine("NVRAM: Asuswrt 1: length mismatch!");
                 return false;
@@ -119,7 +121,7 @@ namespace WrtSettings {
                 return false;
             }
 
-            var len = ToInt24(buffer, 4);
+            var len = ToUInt24(buffer, 4);
             if (len > (buffer.Length - 8)) {
                 Debug.WriteLine("NVRAM: Asuswrt 2: Length mismatch!");
                 return false;
@@ -200,10 +202,53 @@ namespace WrtSettings {
                 }
             }
 
-            var hardwareType = ToInt32(buffer, 4);
+            var hardwareType = ToUInt32(buffer, 4);
             this.Variables.Add(".HardwareType", hardwareType.ToString(CultureInfo.InvariantCulture));
 
             this.Format = NvramFormat.Tomato;
+            return true;
+        }
+
+        private bool TryParseDDWrt(byte[] buffer) {
+            if (buffer.Length < 8) {
+                Debug.WriteLine("NVRAM: DDWrt: File is too small!");
+                return false;
+            }
+
+            string header = ToString(buffer, 0, 6);
+            if (!header.Equals("DD-WRT")) {
+                Debug.WriteLine("NVRAM: DDWrt: Unknown header '" + header + "'!");
+                return false;
+            }
+
+            var count = ToUInt16(buffer, 6);
+
+            int count2 = 0;
+            int i = 8;
+            while (i < buffer.Length) {
+                var keyLen = buffer[i];
+                i += 1;
+
+                var key = Encoding.ASCII.GetString(buffer, i, keyLen);
+                i += keyLen;
+
+                var valueLen = ToUInt16(buffer, i);
+                i += 2;
+
+                var value = Encoding.ASCII.GetString(buffer, i, valueLen);
+                i += valueLen;
+
+                Debug.WriteLine("NVRAM: DDWrt: " + key + "=" + value);
+                count2 += 1;
+                this.Variables.Add(key, value);
+            }
+
+            if (count != count2) {
+                Debug.WriteLine("NVRAM: DDWrt: Length mismatch!");
+                return false;
+            }
+
+            this.Format = NvramFormat.DDWrt;
             return true;
         }
 
@@ -246,7 +291,7 @@ namespace WrtSettings {
             buffer.AddRange(padding);
 
             //insert header in reverse order
-            buffer.InsertRange(0, FromInt32(len));
+            buffer.InsertRange(0, FromUInt32((uint)len));
             buffer.InsertRange(0, Encoding.ASCII.GetBytes("HDR1"));
 
             return buffer.ToArray();
@@ -281,7 +326,7 @@ namespace WrtSettings {
 
             //insert header in reverse order
             buffer.Insert(0, rand);
-            buffer.InsertRange(0, FromInt24(len));
+            buffer.InsertRange(0, FromUInt24((uint)len));
             buffer.InsertRange(0, Encoding.ASCII.GetBytes("HDR2"));
 
             return buffer.ToArray();
@@ -295,13 +340,13 @@ namespace WrtSettings {
             }
 
             var hardwareTypeText = this.Variables[".HardwareType"];
-            int hardwareType;
-            if (!int.TryParse(hardwareTypeText, NumberStyles.Integer, CultureInfo.InvariantCulture, out hardwareType)) {
+            uint hardwareType;
+            if (!uint.TryParse(hardwareTypeText, NumberStyles.Integer, CultureInfo.InvariantCulture, out hardwareType)) {
                 throw new InvalidOperationException("Data format requires hardware type to be defined (.HardwareType) as an integer!");
             }
 
             buffer.AddRange(Encoding.ASCII.GetBytes("TCF1"));
-            buffer.AddRange(FromInt32(hardwareType));
+            buffer.AddRange(FromUInt32(hardwareType));
 
             foreach (var pair in this.Variables) {
                 if (pair.Key.Equals(".HardwareType", StringComparison.Ordinal)) { continue; } //skip virtual keys
@@ -314,6 +359,37 @@ namespace WrtSettings {
                 } //must close stream before returning array (or flush)
                 return msOut.ToArray();
             }
+        }
+
+        private byte[] GetBytesForDDWrt() {
+            var buffer = new List<Byte>();
+
+            buffer.AddRange(Encoding.ASCII.GetBytes("DD-WRT"));
+            buffer.AddRange(FromUInt16((ushort)this.Variables.Count));
+
+            foreach (var pair in this.Variables) {
+                if (pair.Key.StartsWith("wl_", StringComparison.Ordinal)) { //save wl_ entries first
+                    if (pair.Key.Length > 255) { throw new InvalidOperationException("Cannot have key longer than 255 bytes"); }
+                    if (pair.Value.Length > 65535) { throw new InvalidOperationException("Cannot have value longer than 65535 bytes"); }
+                    buffer.Add((byte)pair.Key.Length);
+                    buffer.AddRange(Encoding.ASCII.GetBytes(pair.Key));
+                    buffer.AddRange(FromUInt16((ushort)pair.Value.Length));
+                    buffer.AddRange(Encoding.ASCII.GetBytes(pair.Value));
+                }
+            }
+
+            foreach (var pair in this.Variables) {
+                if (!pair.Key.StartsWith("wl_", StringComparison.Ordinal)) {
+                    if (pair.Key.Length > 255) { throw new InvalidOperationException("Cannot have key longer than 255 bytes"); }
+                    if (pair.Value.Length > 65535) { throw new InvalidOperationException("Cannot have value longer than 65535 bytes"); }
+                    buffer.Add((byte)pair.Key.Length);
+                    buffer.AddRange(Encoding.ASCII.GetBytes(pair.Key));
+                    buffer.AddRange(FromUInt16((ushort)pair.Value.Length));
+                    buffer.AddRange(Encoding.ASCII.GetBytes(pair.Value));
+                }
+            }
+
+            return buffer.ToArray();
         }
 
         private byte[] GetBytesForText() {
@@ -336,23 +412,32 @@ namespace WrtSettings {
 
         #region Helpers
 
-        private static int ToInt24(byte[] buffer, int offset) {
-            var bufferAlt = new byte[4];
-            Buffer.BlockCopy(buffer, offset, bufferAlt, 0, 3);
-            return BitConverter.ToInt32(bufferAlt, 0);
+        private static UInt16 ToUInt16(byte[] buffer, int offset) {
+            return BitConverter.ToUInt16(buffer, offset);
         }
 
-        private static byte[] FromInt24(int value) {
+        private static byte[] FromUInt16(UInt16 value) {
+            return BitConverter.GetBytes(value);
+        }
+
+
+        private static UInt32 ToUInt24(byte[] buffer, int offset) {
+            var bufferAlt = new byte[4];
+            Buffer.BlockCopy(buffer, offset, bufferAlt, 0, 3);
+            return BitConverter.ToUInt32(bufferAlt, 0);
+        }
+
+        private static byte[] FromUInt24(UInt32 value) {
             var buffer = BitConverter.GetBytes(value);
             return new byte[] { buffer[0], buffer[1], buffer[2] };
         }
 
 
-        private static int ToInt32(byte[] buffer, int offset) {
-            return BitConverter.ToInt32(buffer, offset);
+        private static UInt32 ToUInt32(byte[] buffer, int offset) {
+            return BitConverter.ToUInt32(buffer, offset);
         }
 
-        private static byte[] FromInt32(int value) {
+        private static byte[] FromUInt32(UInt32 value) {
             return BitConverter.GetBytes(value);
         }
 
@@ -456,6 +541,7 @@ namespace WrtSettings {
         AsuswrtVersion1 = 1,
         AsuswrtVersion2 = 2,
         Tomato = 4,
+        DDWrt = 8,
         Text = 0x40000000,
         All = 0x7FFFFFFF,
     }
