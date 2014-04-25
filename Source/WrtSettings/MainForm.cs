@@ -122,7 +122,14 @@ namespace WrtSettings {
         private void Form_DragDrop(object sender, DragEventArgs e) {
             var fileName = GetFileName(e.Data);
             if (fileName != null) {
-                //TODO: Open file
+                if (!HasSavedModifications()) { return; }
+
+                try {
+                    this.Document = new Nvram(fileName, NvramFormat.All);
+                    this.Recent.Push(fileName);
+                } catch (FormatException ex) {
+                    Medo.MessageBox.ShowError(this, "Cannot open file!\n\n" + ex.Message);
+                }
             }
         }
 
