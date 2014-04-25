@@ -371,7 +371,7 @@ namespace WrtSettings {
         }
 
         private void mnuSaveAs_Click(object sender, EventArgs e) {
-            using (var frm = new SaveFileDialog() { Filter = "AsusWRT configuration (v1)|*.cfg|AsusWRT configuration (v2)|*.cfg|Tomato configuration|*.cfg|DD-WRT configuration|*.bin|Text file|*.txt" }) {
+            using (var frm = new SaveFileDialog() { FileName = this.Document.FileName, Filter = "AsusWRT configuration (v1)|*.cfg|AsusWRT configuration (v2)|*.cfg|Tomato configuration|*.cfg|DD-WRT configuration|*.bin|Text file|*.txt" }) {
                 switch (this.Document.Format) {
                     case NvramFormat.AsuswrtVersion1: frm.FilterIndex = 1; break;
                     case NvramFormat.AsuswrtVersion2: frm.FilterIndex = 2; break;
