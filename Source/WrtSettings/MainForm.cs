@@ -259,6 +259,7 @@ namespace WrtSettings {
                 this._hasChanged = false;
                 if (this.Document != null) {
                     mnuSaveRoot.Enabled = true;
+                    mnuReadOnly.Enabled = true;
                     grid.Visible = false;
                     grid.CancelEdit();
                     grid.Rows.Clear();
@@ -269,6 +270,7 @@ namespace WrtSettings {
                     grid.Sort(grid_colKey, ListSortDirection.Ascending);
                     grid.Visible = true;
                     grid.Refresh();
+                    mnuReadOnly.Checked = true;
                 }
                 UpdateTitle();
             }
@@ -310,7 +312,7 @@ namespace WrtSettings {
         private void mnuOpen_Click(object sender, EventArgs e) {
             if (!HasSavedModifications()) { return; }
 
-            using (var frm = new OpenFileDialog() { Filter = "Auto-detect configuration|*.cfg;*.bin;*.txt|AsusWRT configuration|*.cfg|Tomato configuration|*.cfg|DD-WRT configuration|*.bin|Text file|*.txt" }) {
+            using (var frm = new OpenFileDialog() { ShowReadOnly = true, ReadOnlyChecked = true, Filter = "Auto-detect configuration|*.cfg;*.bin;*.txt|AsusWRT configuration|*.cfg|Tomato configuration|*.cfg|DD-WRT configuration|*.bin|Text file|*.txt" }) {
                 if (frm.ShowDialog(this) == DialogResult.OK) {
                     try {
                         switch (frm.FilterIndex) {
@@ -320,6 +322,7 @@ namespace WrtSettings {
                             default: this.Document = new Nvram(frm.FileName, NvramFormat.All); break;
                         }
                         this.Recent.Push(this.Document.FileName);
+                        mnuReadOnly.Checked = frm.ReadOnlyChecked;
                         grid.Select();
                     } catch (FormatException ex) {
                         Medo.MessageBox.ShowError(this, "Cannot open file!\n\n" + ex.Message);
@@ -401,6 +404,11 @@ namespace WrtSettings {
         }
 
 
+        private void mnuReadOnly_CheckedChanged(object sender, EventArgs e) {
+            grid.ReadOnly = mnuReadOnly.Checked;
+        }
+
+
         private void mnuAppFeedback_Click(object sender, EventArgs e) {
             Medo.Diagnostics.ErrorReport.ShowDialog(this, null, new Uri("http://jmedved.com/feedback/"));
         }
@@ -440,6 +448,7 @@ namespace WrtSettings {
         }
 
         #endregion
+
 
     }
 }

@@ -37,6 +37,8 @@
             this.mnuAppDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuAppAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuReadOnly = new System.Windows.Forms.ToolStripButton();
             this.grid = new System.Windows.Forms.DataGridView();
             this.grid_colKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grid_colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,7 +52,9 @@
             this.mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuOpenRoot,
             this.mnuSaveRoot,
-            this.mnuApp});
+            this.mnuApp,
+            this.toolStripSeparator1,
+            this.mnuReadOnly});
             this.mnu.Location = new System.Drawing.Point(0, 0);
             this.mnu.Name = "mnu";
             this.mnu.Padding = new System.Windows.Forms.Padding(1, 0, 1, 0);
@@ -76,14 +80,14 @@
             // 
             this.mnuOpen.Name = "mnuOpen";
             this.mnuOpen.ShortcutKeyDisplayString = "Ctrl+O";
-            this.mnuOpen.Size = new System.Drawing.Size(167, 24);
+            this.mnuOpen.Size = new System.Drawing.Size(175, 24);
             this.mnuOpen.Text = "&Open";
             this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
             // mnuOpenRecentSeparator
             // 
             this.mnuOpenRecentSeparator.Name = "mnuOpenRecentSeparator";
-            this.mnuOpenRecentSeparator.Size = new System.Drawing.Size(164, 6);
+            this.mnuOpenRecentSeparator.Size = new System.Drawing.Size(172, 6);
             // 
             // mnuSaveRoot
             // 
@@ -163,6 +167,23 @@
             this.mnuAppAbout.Size = new System.Drawing.Size(200, 24);
             this.mnuAppAbout.Text = "&About";
             this.mnuAppAbout.Click += new System.EventHandler(this.mnuAppAbout_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // mnuReadOnly
+            // 
+            this.mnuReadOnly.CheckOnClick = true;
+            this.mnuReadOnly.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.mnuReadOnly.Enabled = false;
+            this.mnuReadOnly.Image = ((System.Drawing.Image)(resources.GetObject("mnuReadOnly.Image")));
+            this.mnuReadOnly.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.mnuReadOnly.Name = "mnuReadOnly";
+            this.mnuReadOnly.Size = new System.Drawing.Size(23, 22);
+            this.mnuReadOnly.Text = "Read-only";
+            this.mnuReadOnly.CheckedChanged += new System.EventHandler(this.mnuReadOnly_CheckedChanged);
             // 
             // grid
             // 
@@ -247,6 +268,8 @@
         private System.Windows.Forms.DataGridView grid;
         private System.Windows.Forms.DataGridViewTextBoxColumn grid_colKey;
         private System.Windows.Forms.DataGridViewTextBoxColumn grid_colValue;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton mnuReadOnly;
     }
 }
 
