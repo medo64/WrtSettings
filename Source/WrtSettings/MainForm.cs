@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -159,7 +159,9 @@ namespace WrtSettings {
                         }
                     }
                     Clipboard.Clear();
-                    Clipboard.SetText(sb.ToString());
+                    if (sb.Length > 0) {
+                        Clipboard.SetText(sb.ToString());
+                    }
                     e.Handled = true;
                     break;
             }

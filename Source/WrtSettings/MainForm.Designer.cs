@@ -1,4 +1,4 @@
-﻿namespace WrtSettings {
+namespace WrtSettings {
     partial class MainForm {
         /// <summary>
         /// Required designer variable.
@@ -80,14 +80,14 @@
             // 
             this.mnuOpen.Name = "mnuOpen";
             this.mnuOpen.ShortcutKeyDisplayString = "Ctrl+O";
-            this.mnuOpen.Size = new System.Drawing.Size(175, 24);
+            this.mnuOpen.Size = new System.Drawing.Size(167, 24);
             this.mnuOpen.Text = "&Open";
             this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
             // mnuOpenRecentSeparator
             // 
             this.mnuOpenRecentSeparator.Name = "mnuOpenRecentSeparator";
-            this.mnuOpenRecentSeparator.Size = new System.Drawing.Size(172, 6);
+            this.mnuOpenRecentSeparator.Size = new System.Drawing.Size(164, 6);
             // 
             // mnuSaveRoot
             // 
@@ -199,7 +199,7 @@
             this.grid.Location = new System.Drawing.Point(0, 25);
             this.grid.Name = "grid";
             this.grid.RowTemplate.Height = 24;
-            this.grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grid.Size = new System.Drawing.Size(442, 368);
             this.grid.TabIndex = 1;
             this.grid.Visible = false;
