@@ -7,8 +7,8 @@
 #define AppSetupFile   AppBase + StringChange(AppVersion, '.', '')
 
 #define AppVersionEx   StringChange(AppVersion, '0.00', '')
-#if "" != HgNode
-#  define AppVersionEx AppVersionEx + " (" + HgNode + ")"
+#if "" != VersionHash
+#  define AppVersionEx AppVersionEx + " (" + VersionHash + ")"
 #endif
 
 
@@ -40,7 +40,7 @@ ShowLanguageDialog=no
 SolidCompression=yes
 ChangesAssociations=yes
 DisableWelcomePage=yes
-LicenseFile=..\Setup\License.txt
+LicenseFile=..\Setup\License.rtf
 
 
 [Messages]
@@ -51,6 +51,8 @@ BeveledLabel=jmedved.com
 
 [Files]
 Source: "WrtSettings.exe";  DestDir: "{app}";  Flags: ignoreversion;
+Source: "WrtSettings.pdb";  DestDir: "{app}";  Flags: ignoreversion;
+Source: "ReadMe.txt";       DestDir: "{app}";  Flags: overwritereadonly uninsremovereadonly;  Attribs: readonly;
 
 
 [Icons]
@@ -63,10 +65,12 @@ Root: HKCU;  Subkey: "Software\Josip Medved\WrtSettings";  ValueType: none;  Fla
 
 
 [Run]
-Filename: "{app}\WrtSettings.exe";  Flags: postinstall nowait skipifsilent runasoriginaluser;  Description: "Launch application now";
+Filename: "{app}\WrtSettings.exe";  Flags: postinstall nowait skipifsilent runasoriginaluser;                      Description: "Launch application now";
+Filename: "{app}\ReadMe.txt";       Flags: postinstall nowait skipifsilent runasoriginaluser unchecked shellexec;  Description: "View ReadMe.txt";
 
 
 [Code]
+
 procedure InitializeWizard;
 begin
   WizardForm.LicenseAcceptedRadio.Checked := True;
