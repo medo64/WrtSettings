@@ -49,6 +49,7 @@ namespace WrtSettings {
             // mnu
             // 
             this.mnu.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.mnu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuOpenRoot,
             this.mnuSaveRoot,
@@ -58,7 +59,7 @@ namespace WrtSettings {
             this.mnu.Location = new System.Drawing.Point(0, 0);
             this.mnu.Name = "mnu";
             this.mnu.Padding = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.mnu.Size = new System.Drawing.Size(442, 25);
+            this.mnu.Size = new System.Drawing.Size(442, 27);
             this.mnu.TabIndex = 0;
             // 
             // mnuOpenRoot
@@ -70,7 +71,7 @@ namespace WrtSettings {
             this.mnuOpenRoot.Image = ((System.Drawing.Image)(resources.GetObject("mnuOpenRoot.Image")));
             this.mnuOpenRoot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuOpenRoot.Name = "mnuOpenRoot";
-            this.mnuOpenRoot.Size = new System.Drawing.Size(32, 22);
+            this.mnuOpenRoot.Size = new System.Drawing.Size(39, 24);
             this.mnuOpenRoot.Text = "Open";
             this.mnuOpenRoot.ToolTipText = "Open (Ctrl+O)";
             this.mnuOpenRoot.ButtonClick += new System.EventHandler(this.mnuOpen_Click);
@@ -80,14 +81,14 @@ namespace WrtSettings {
             // 
             this.mnuOpen.Name = "mnuOpen";
             this.mnuOpen.ShortcutKeyDisplayString = "Ctrl+O";
-            this.mnuOpen.Size = new System.Drawing.Size(167, 24);
+            this.mnuOpen.Size = new System.Drawing.Size(173, 26);
             this.mnuOpen.Text = "&Open";
             this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
             // mnuOpenRecentSeparator
             // 
             this.mnuOpenRecentSeparator.Name = "mnuOpenRecentSeparator";
-            this.mnuOpenRecentSeparator.Size = new System.Drawing.Size(164, 6);
+            this.mnuOpenRecentSeparator.Size = new System.Drawing.Size(170, 6);
             // 
             // mnuSaveRoot
             // 
@@ -99,7 +100,7 @@ namespace WrtSettings {
             this.mnuSaveRoot.Image = ((System.Drawing.Image)(resources.GetObject("mnuSaveRoot.Image")));
             this.mnuSaveRoot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuSaveRoot.Name = "mnuSaveRoot";
-            this.mnuSaveRoot.Size = new System.Drawing.Size(32, 22);
+            this.mnuSaveRoot.Size = new System.Drawing.Size(39, 24);
             this.mnuSaveRoot.Text = "Save";
             this.mnuSaveRoot.ToolTipText = "Save (Ctrl+S)";
             this.mnuSaveRoot.ButtonClick += new System.EventHandler(this.mnuSave_Click);
@@ -108,14 +109,14 @@ namespace WrtSettings {
             // 
             this.mnuSave.Name = "mnuSave";
             this.mnuSave.ShortcutKeyDisplayString = "Ctrl+S";
-            this.mnuSave.Size = new System.Drawing.Size(159, 24);
+            this.mnuSave.Size = new System.Drawing.Size(165, 26);
             this.mnuSave.Text = "&Save";
             this.mnuSave.Click += new System.EventHandler(this.mnuSave_Click);
             // 
             // mnuSaveAs
             // 
             this.mnuSaveAs.Name = "mnuSaveAs";
-            this.mnuSaveAs.Size = new System.Drawing.Size(159, 24);
+            this.mnuSaveAs.Size = new System.Drawing.Size(165, 26);
             this.mnuSaveAs.Text = "Save &as";
             this.mnuSaveAs.Click += new System.EventHandler(this.mnuSaveAs_Click);
             // 
@@ -132,46 +133,46 @@ namespace WrtSettings {
             this.mnuApp.Image = ((System.Drawing.Image)(resources.GetObject("mnuApp.Image")));
             this.mnuApp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuApp.Name = "mnuApp";
-            this.mnuApp.Size = new System.Drawing.Size(29, 22);
+            this.mnuApp.Size = new System.Drawing.Size(34, 24);
             this.mnuApp.Text = "Application";
             // 
             // mnuAppFeedback
             // 
             this.mnuAppFeedback.Name = "mnuAppFeedback";
-            this.mnuAppFeedback.Size = new System.Drawing.Size(200, 24);
+            this.mnuAppFeedback.Size = new System.Drawing.Size(206, 26);
             this.mnuAppFeedback.Text = "Send &feedback";
             this.mnuAppFeedback.Click += new System.EventHandler(this.mnuAppFeedback_Click);
             // 
             // mnuAppUpgrade
             // 
             this.mnuAppUpgrade.Name = "mnuAppUpgrade";
-            this.mnuAppUpgrade.Size = new System.Drawing.Size(200, 24);
+            this.mnuAppUpgrade.Size = new System.Drawing.Size(206, 26);
             this.mnuAppUpgrade.Text = "Check for &upgrade";
             this.mnuAppUpgrade.Click += new System.EventHandler(this.mnuAppUpgrade_Click);
             // 
             // mnuAppDonate
             // 
             this.mnuAppDonate.Name = "mnuAppDonate";
-            this.mnuAppDonate.Size = new System.Drawing.Size(200, 24);
+            this.mnuAppDonate.Size = new System.Drawing.Size(206, 26);
             this.mnuAppDonate.Text = "&Donate";
             this.mnuAppDonate.Click += new System.EventHandler(this.mnuAppDonate_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(197, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(203, 6);
             // 
             // mnuAppAbout
             // 
             this.mnuAppAbout.Name = "mnuAppAbout";
-            this.mnuAppAbout.Size = new System.Drawing.Size(200, 24);
+            this.mnuAppAbout.Size = new System.Drawing.Size(206, 26);
             this.mnuAppAbout.Text = "&About";
             this.mnuAppAbout.Click += new System.EventHandler(this.mnuAppAbout_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // mnuReadOnly
             // 
@@ -181,7 +182,7 @@ namespace WrtSettings {
             this.mnuReadOnly.Image = ((System.Drawing.Image)(resources.GetObject("mnuReadOnly.Image")));
             this.mnuReadOnly.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuReadOnly.Name = "mnuReadOnly";
-            this.mnuReadOnly.Size = new System.Drawing.Size(23, 22);
+            this.mnuReadOnly.Size = new System.Drawing.Size(24, 24);
             this.mnuReadOnly.Text = "Read-only";
             this.mnuReadOnly.CheckedChanged += new System.EventHandler(this.mnuReadOnly_CheckedChanged);
             // 
@@ -196,16 +197,17 @@ namespace WrtSettings {
             this.grid_colKey,
             this.grid_colValue});
             this.grid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grid.Location = new System.Drawing.Point(0, 25);
+            this.grid.Location = new System.Drawing.Point(0, 27);
             this.grid.Name = "grid";
             this.grid.RowTemplate.Height = 24;
             this.grid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grid.Size = new System.Drawing.Size(442, 368);
+            this.grid.Size = new System.Drawing.Size(442, 366);
             this.grid.TabIndex = 1;
             this.grid.Visible = false;
             this.grid.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.grid_CellBeginEdit);
             this.grid.CellParsing += new System.Windows.Forms.DataGridViewCellParsingEventHandler(this.grid_CellParsing);
             this.grid.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.grid_CellValidating);
+            this.grid.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.grid_UserDeletingRow);
             this.grid.KeyDown += new System.Windows.Forms.KeyEventHandler(this.grid_KeyDown);
             // 
             // grid_colKey

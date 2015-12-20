@@ -248,6 +248,19 @@ namespace WrtSettings {
             }
         }
 
+        private void grid_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e) {
+            if (((DataGridView)sender).ReadOnly) { //because DataGridView allows row deletion even when readonly?!
+                e.Cancel = true;
+                return;
+            }
+
+            var key = (e.Row.Cells[0].Value as string) ?? "";
+            if (this.Document.Variables.ContainsKey(key)) {
+                this.Document.Variables.Remove(key);
+                this.HasChanged = true;
+            }
+        }
+
         #endregion
 
 
@@ -449,8 +462,8 @@ namespace WrtSettings {
             if (this.Text != newText) { this.Text = newText; }
         }
 
-        #endregion
 
+        #endregion
 
     }
 }
