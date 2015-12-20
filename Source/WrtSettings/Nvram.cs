@@ -312,6 +312,7 @@ namespace WrtSettings {
             } else {
                 rand = (byte)Random.Next(0, 256);
             }
+            rand %= 30;
 
             foreach (var pair in this.Variables) {
                 if (pair.Key.Equals(".Random", StringComparison.Ordinal)) { continue; } //skip random number
