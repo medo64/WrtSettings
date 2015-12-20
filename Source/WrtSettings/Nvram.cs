@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -156,6 +156,8 @@ namespace WrtSettings {
                 }
             }
 
+            this.Variables.Add(".Random", random.ToString(CultureInfo.InvariantCulture));
+
             this.Format = NvramFormat.AsuswrtVersion2;
             return true;
         }
@@ -302,9 +304,17 @@ namespace WrtSettings {
         private byte[] GetBytesForAsuswrtVersion2() {
             var buffer = new List<Byte>();
 
-            var rand = (byte)Random.Next(0, 256);
+            byte rand;
+            if (this.Variables.ContainsKey(".Random")) {
+                if (!byte.TryParse(this.Variables[".Random"], NumberStyles.Integer, CultureInfo.InvariantCulture, out rand)) {
+                    throw new InvalidOperationException("Invalid predefined random number (.Random)!");
+                }
+            } else {
+                rand = (byte)Random.Next(0, 256);
+            }
 
             foreach (var pair in this.Variables) {
+                if (pair.Key.Equals(".Random", StringComparison.Ordinal)) { continue; } //skip random number
                 buffer.AddRange(Encoding.ASCII.GetBytes(pair.Key + "=" + pair.Value + "\0"));
             }
 
@@ -481,15 +491,18 @@ namespace WrtSettings {
             var state = DTState.Text;
             foreach (var ch in text) {
                 switch (state) {
-                    case DTState.Text: {
+                    case DTState.Text:
+                        {
                             if (ch == '\\') {
                                 state = DTState.Escape;
                             } else {
                                 sb.Append(ch);
                             }
-                        } break;
+                        }
+                        break;
 
-                    case DTState.Escape: {
+                    case DTState.Escape:
+                        {
                             switch (ch) {
                                 case 'n': sb.Append("\n"); state = DTState.Text; break;
                                 case 'r': sb.Append("\r"); state = DTState.Text; break;
@@ -500,9 +513,11 @@ namespace WrtSettings {
                                 case 'x': state = DTState.EscapeHex; break;
                                 default: throw new FormatException("Invalid escape sequence.");
                             }
-                        } break;
+                        }
+                        break;
 
-                    case DTState.EscapeHex: {
+                    case DTState.EscapeHex:
+                        {
                             sbHex.Append(ch);
                             if (sbHex.Length == 2) {
                                 var hex = sbHex.ToString();
@@ -514,7 +529,8 @@ namespace WrtSettings {
                                 sb.Append(Encoding.ASCII.GetString(new byte[] { value }));
                                 state = DTState.Text;
                             }
-                        } break;
+                        }
+                        break;
                 }
             }
 
