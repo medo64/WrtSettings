@@ -156,7 +156,9 @@ namespace WrtSettings {
                 }
             }
 
-            this.Variables.Add(".Random", random.ToString(CultureInfo.InvariantCulture));
+            if (Settings.ShowAsuswrt2Random) {
+                this.Variables.Add(".Random", random.ToString(CultureInfo.InvariantCulture));
+            }
 
             this.Format = NvramFormat.AsuswrtVersion2;
             return true;
