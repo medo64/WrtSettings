@@ -68,7 +68,7 @@ namespace WrtSettings {
             this.mnuOpenRoot.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuOpen,
             this.mnuOpenRecentSeparator});
-            this.mnuOpenRoot.Image = ((System.Drawing.Image)(resources.GetObject("mnuOpenRoot.Image")));
+            this.mnuOpenRoot.Image = global::WrtSettings.Properties.Resources.mnuOpenRoot_16;
             this.mnuOpenRoot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuOpenRoot.Name = "mnuOpenRoot";
             this.mnuOpenRoot.Size = new System.Drawing.Size(39, 24);
@@ -81,14 +81,14 @@ namespace WrtSettings {
             // 
             this.mnuOpen.Name = "mnuOpen";
             this.mnuOpen.ShortcutKeyDisplayString = "Ctrl+O";
-            this.mnuOpen.Size = new System.Drawing.Size(173, 26);
+            this.mnuOpen.Size = new System.Drawing.Size(181, 26);
             this.mnuOpen.Text = "&Open";
             this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
             // mnuOpenRecentSeparator
             // 
             this.mnuOpenRecentSeparator.Name = "mnuOpenRecentSeparator";
-            this.mnuOpenRecentSeparator.Size = new System.Drawing.Size(170, 6);
+            this.mnuOpenRecentSeparator.Size = new System.Drawing.Size(178, 6);
             // 
             // mnuSaveRoot
             // 
@@ -97,7 +97,7 @@ namespace WrtSettings {
             this.mnuSave,
             this.mnuSaveAs});
             this.mnuSaveRoot.Enabled = false;
-            this.mnuSaveRoot.Image = ((System.Drawing.Image)(resources.GetObject("mnuSaveRoot.Image")));
+            this.mnuSaveRoot.Image = global::WrtSettings.Properties.Resources.mnuSaveRoot_16;
             this.mnuSaveRoot.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuSaveRoot.Name = "mnuSaveRoot";
             this.mnuSaveRoot.Size = new System.Drawing.Size(39, 24);
@@ -109,14 +109,14 @@ namespace WrtSettings {
             // 
             this.mnuSave.Name = "mnuSave";
             this.mnuSave.ShortcutKeyDisplayString = "Ctrl+S";
-            this.mnuSave.Size = new System.Drawing.Size(165, 26);
+            this.mnuSave.Size = new System.Drawing.Size(181, 26);
             this.mnuSave.Text = "&Save";
             this.mnuSave.Click += new System.EventHandler(this.mnuSave_Click);
             // 
             // mnuSaveAs
             // 
             this.mnuSaveAs.Name = "mnuSaveAs";
-            this.mnuSaveAs.Size = new System.Drawing.Size(165, 26);
+            this.mnuSaveAs.Size = new System.Drawing.Size(181, 26);
             this.mnuSaveAs.Text = "Save &as";
             this.mnuSaveAs.Click += new System.EventHandler(this.mnuSaveAs_Click);
             // 
@@ -130,7 +130,7 @@ namespace WrtSettings {
             this.mnuAppDonate,
             this.toolStripMenuItem2,
             this.mnuAppAbout});
-            this.mnuApp.Image = ((System.Drawing.Image)(resources.GetObject("mnuApp.Image")));
+            this.mnuApp.Image = global::WrtSettings.Properties.Resources.mnuApp_16;
             this.mnuApp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuApp.Name = "mnuApp";
             this.mnuApp.Size = new System.Drawing.Size(34, 24);
@@ -179,7 +179,7 @@ namespace WrtSettings {
             this.mnuReadOnly.CheckOnClick = true;
             this.mnuReadOnly.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.mnuReadOnly.Enabled = false;
-            this.mnuReadOnly.Image = ((System.Drawing.Image)(resources.GetObject("mnuReadOnly.Image")));
+            this.mnuReadOnly.Image = global::WrtSettings.Properties.Resources.mnuReadOnly_16;
             this.mnuReadOnly.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuReadOnly.Name = "mnuReadOnly";
             this.mnuReadOnly.Size = new System.Drawing.Size(24, 24);

@@ -14,6 +14,7 @@ namespace WrtSettings {
             InitializeComponent();
             this.Font = SystemFonts.MessageBoxFont;
             Medo.Windows.Forms.State.SetupOnLoadAndClose(this);
+            Helper.ScaleToolstrip(mnu);
         }
 
 
