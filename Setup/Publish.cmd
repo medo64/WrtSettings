@@ -10,8 +10,9 @@ SET    COMPILE_TOOL_1="%PROGRAMFILES(X86)%\Microsoft Visual Studio 14.0\Common7\
 SET    COMPILE_TOOL_2="%PROGRAMFILES(X86)%\Microsoft Visual Studio 14.0\Common7\IDE\WDExpress.exe"
 SET        SETUP_TOOL="%PROGRAMFILES(x86)%\Inno Setup 5\iscc.exe"
 
-SET       SIGN_TOOL_1="%PROGRAMFILES(X86)%\Windows Kits\8.1\bin\x86\signtool.exe"
-SET       SIGN_TOOL_2="%PROGRAMFILES(X86)%\Windows Kits\8.0\bin\x86\signtool.exe"
+SET       SIGN_TOOL_1="%PROGRAMFILES(X86)%\Windows Kits\10\bin\x86\signtool.exe"
+SET       SIGN_TOOL_2="%PROGRAMFILES(X86)%\Windows Kits\8.1\bin\x86\signtool.exe"
+SET       SIGN_TOOL_3="%PROGRAMFILES(X86)%\Windows Kits\8.0\bin\x86\signtool.exe"
 SET         SIGN_HASH="C02FF227D5EE9F555C13D4C622697DF15C6FF871"
 SET SIGN_TIMESTAMPURL="http://timestamp.comodoca.com/rfc3161"
 
@@ -42,15 +43,20 @@ IF EXIST %SETUP_TOOL% (
 )
 
 IF EXIST %SIGN_TOOL_1% (
-    ECHO Windows SignTool 8.1
+    ECHO Windows SignTool 10
     SET SIGN_TOOL=%SIGN_TOOL_1%
 ) ELSE (
     IF EXIST %SIGN_TOOL_2% (
-        ECHO Windows SignTool 8.0
+        ECHO Windows SignTool 8.1
         SET SIGN_TOOL=%SIGN_TOOL_2%
     ) ELSE (
-        ECHO Cannot find Windows SignTool^^!
-        PAUSE && EXIT /B 255
+        IF EXIST %SIGN_TOOL_3% (
+            ECHO Windows SignTool 8.0
+            SET SIGN_TOOL=%SIGN_TOOL_3%
+        ) ELSE (
+            ECHO Cannot find Windows SignTool^^!
+            PAUSE && EXIT /B 255
+        )
     )
 )
 
@@ -176,7 +182,7 @@ ECHO --- BUILD ZIP
 ECHO.
 
 ECHO Zipping into %_SETUPEXE:.exe=.zip%
-"%PROGRAMFILES%\WinRAR\WinRAR.exe" a -afzip -ep -m5 ".\Temp\%_SETUPEXE:.exe=.zip%" %FILE_EXECUTABLE% %FILES_OTHER%
+"%PROGRAMFILES%\WinRAR\WinRAR.exe" a -afzip -ep -m5 ".\Temp\%_SETUPEXE:.exe=.zip%" %FILES_EXECUTABLE% %FILES_OTHER%
 IF ERRORLEVEL 1 PAUSE && EXIT /B %ERRORLEVEL%
 
 ECHO.
