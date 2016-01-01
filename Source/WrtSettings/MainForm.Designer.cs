@@ -34,7 +34,6 @@ namespace WrtSettings {
             this.mnuApp = new System.Windows.Forms.ToolStripDropDownButton();
             this.mnuAppFeedback = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAppUpgrade = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuAppDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuAppAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -127,7 +126,6 @@ namespace WrtSettings {
             this.mnuApp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuAppFeedback,
             this.mnuAppUpgrade,
-            this.mnuAppDonate,
             this.toolStripMenuItem2,
             this.mnuAppAbout});
             this.mnuApp.Image = global::WrtSettings.Properties.Resources.mnuApp_16;
@@ -149,13 +147,6 @@ namespace WrtSettings {
             this.mnuAppUpgrade.Size = new System.Drawing.Size(206, 26);
             this.mnuAppUpgrade.Text = "Check for &upgrade";
             this.mnuAppUpgrade.Click += new System.EventHandler(this.mnuAppUpgrade_Click);
-            // 
-            // mnuAppDonate
-            // 
-            this.mnuAppDonate.Name = "mnuAppDonate";
-            this.mnuAppDonate.Size = new System.Drawing.Size(206, 26);
-            this.mnuAppDonate.Text = "&Donate";
-            this.mnuAppDonate.Click += new System.EventHandler(this.mnuAppDonate_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -264,7 +255,6 @@ namespace WrtSettings {
         private System.Windows.Forms.ToolStripMenuItem mnuSaveAs;
         private System.Windows.Forms.ToolStripMenuItem mnuAppFeedback;
         private System.Windows.Forms.ToolStripMenuItem mnuAppUpgrade;
-        private System.Windows.Forms.ToolStripMenuItem mnuAppDonate;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem mnuAppAbout;
         private System.Windows.Forms.DataGridView grid;
