@@ -4,7 +4,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace WrtSettings {
@@ -105,6 +107,15 @@ namespace WrtSettings {
         private void Form_FormClosing(object sender, FormClosingEventArgs e) {
             if (!HasSavedModifications()) { e.Cancel = true; }
 
+        }
+
+        private void Form_FormClosed(object sender, FormClosedEventArgs e) {
+            bwCheckForUpgrade.CancelAsync();
+        }
+
+        private void Form_Shown(object sender, EventArgs e) {
+            var version = Assembly.GetExecutingAssembly().GetName().Version; //don't auto-check for development builds
+            if ((version.Major != 0) || (version.Minor != 0)) { bwCheckForUpgrade.RunWorkerAsync(); }
         }
 
         #endregion
@@ -459,6 +470,34 @@ namespace WrtSettings {
             if (this.Text != newText) { this.Text = newText; }
         }
 
+
+        #endregion
+
+
+        #region Upgrade
+
+        private void bwCheckForUpgrade_DoWork(object sender, DoWorkEventArgs e) {
+            e.Cancel = true;
+
+            var sw = Stopwatch.StartNew();
+            while (sw.ElapsedMilliseconds < 3000) { //wait for three seconds
+                Thread.Sleep(100);
+                if (bwCheckForUpgrade.CancellationPending) { return; }
+            }
+
+            var file = Medo.Services.Upgrade.GetUpgradeFile(new Uri("https://medo64.com/upgrade/"));
+            if (file != null) {
+                if (bwCheckForUpgrade.CancellationPending) { return; }
+                e.Cancel = false;
+            }
+        }
+
+        private void bwCheckForUpgrade_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+            if (!e.Cancelled) {
+                Helper.ScaleToolstripItem(mnuApp, "mnuAppUpgrade");
+                mnuAppUpgrade.Text = "Upgrade is available";
+            }
+        }
 
         #endregion
 

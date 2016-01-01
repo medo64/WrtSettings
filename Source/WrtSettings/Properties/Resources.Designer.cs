@@ -103,6 +103,46 @@ namespace WrtSettings.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mnuAppUpgrade_16 {
+            get {
+                object obj = ResourceManager.GetObject("mnuAppUpgrade_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mnuAppUpgrade_24 {
+            get {
+                object obj = ResourceManager.GetObject("mnuAppUpgrade_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mnuAppUpgrade_32 {
+            get {
+                object obj = ResourceManager.GetObject("mnuAppUpgrade_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap mnuAppUpgrade_48 {
+            get {
+                object obj = ResourceManager.GetObject("mnuAppUpgrade_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap mnuOpenRoot_16 {
             get {
                 object obj = ResourceManager.GetObject("mnuOpenRoot_16", resourceCulture);

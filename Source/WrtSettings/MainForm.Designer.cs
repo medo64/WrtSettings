@@ -41,6 +41,7 @@ namespace WrtSettings {
             this.grid = new System.Windows.Forms.DataGridView();
             this.grid_colKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.grid_colValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bwCheckForUpgrade = new System.ComponentModel.BackgroundWorker();
             this.mnu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.SuspendLayout();
@@ -80,14 +81,14 @@ namespace WrtSettings {
             // 
             this.mnuOpen.Name = "mnuOpen";
             this.mnuOpen.ShortcutKeyDisplayString = "Ctrl+O";
-            this.mnuOpen.Size = new System.Drawing.Size(181, 26);
+            this.mnuOpen.Size = new System.Drawing.Size(173, 26);
             this.mnuOpen.Text = "&Open";
             this.mnuOpen.Click += new System.EventHandler(this.mnuOpen_Click);
             // 
             // mnuOpenRecentSeparator
             // 
             this.mnuOpenRecentSeparator.Name = "mnuOpenRecentSeparator";
-            this.mnuOpenRecentSeparator.Size = new System.Drawing.Size(178, 6);
+            this.mnuOpenRecentSeparator.Size = new System.Drawing.Size(170, 6);
             // 
             // mnuSaveRoot
             // 
@@ -108,14 +109,14 @@ namespace WrtSettings {
             // 
             this.mnuSave.Name = "mnuSave";
             this.mnuSave.ShortcutKeyDisplayString = "Ctrl+S";
-            this.mnuSave.Size = new System.Drawing.Size(181, 26);
+            this.mnuSave.Size = new System.Drawing.Size(165, 26);
             this.mnuSave.Text = "&Save";
             this.mnuSave.Click += new System.EventHandler(this.mnuSave_Click);
             // 
             // mnuSaveAs
             // 
             this.mnuSaveAs.Name = "mnuSaveAs";
-            this.mnuSaveAs.Size = new System.Drawing.Size(181, 26);
+            this.mnuSaveAs.Size = new System.Drawing.Size(165, 26);
             this.mnuSaveAs.Text = "Save &as";
             this.mnuSaveAs.Click += new System.EventHandler(this.mnuSaveAs_Click);
             // 
@@ -219,6 +220,12 @@ namespace WrtSettings {
             this.grid_colValue.Name = "grid_colValue";
             this.grid_colValue.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // bwCheckForUpgrade
+            // 
+            this.bwCheckForUpgrade.WorkerSupportsCancellation = true;
+            this.bwCheckForUpgrade.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwCheckForUpgrade_DoWork);
+            this.bwCheckForUpgrade.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwCheckForUpgrade_RunWorkerCompleted);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -233,6 +240,8 @@ namespace WrtSettings {
             this.Name = "MainForm";
             this.Text = "WRT Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form_FormClosed);
+            this.Shown += new System.EventHandler(this.Form_Shown);
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form_DragDrop);
             this.DragOver += new System.Windows.Forms.DragEventHandler(this.Form_DragOver);
             this.mnu.ResumeLayout(false);
@@ -262,6 +271,7 @@ namespace WrtSettings {
         private System.Windows.Forms.DataGridViewTextBoxColumn grid_colValue;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton mnuReadOnly;
+        private System.ComponentModel.BackgroundWorker bwCheckForUpgrade;
     }
 }
 
