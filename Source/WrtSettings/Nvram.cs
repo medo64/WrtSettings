@@ -17,7 +17,7 @@ namespace WrtSettings {
                     stream.Read(buffer, 0, buffer.Length);
                 }
 
-                this.Variables = new Dictionary<string, string>();
+                this.Variables = new Dictionary<string, string>(StringComparer.Ordinal);
 
                 if (((format & NvramFormat.AsuswrtVersion1) != 0) && TryParseAsuswrtVersion1(buffer)) {
                 } else if (((format & NvramFormat.AsuswrtVersion2) != 0) && TryParseAsuswrtVersion2(buffer)) {
@@ -95,7 +95,7 @@ namespace WrtSettings {
                         Debug.WriteLine("NVRAM: Asuswrt 1: " + variable);
                         var parts = variable.Split(new char[] { '=' }, 2);
                         if (parts.Length == 2) {
-                            this.Variables.Add(parts[0], parts[1]);
+                            AddVariable(parts[0], parts[1]);
                         } else {
                             Debug.WriteLine("NVRAM: Asuswrt 1: Cannot parse '" + variable + "'!");
                             return false;
@@ -146,7 +146,7 @@ namespace WrtSettings {
                         Debug.WriteLine("NVRAM: Asuswrt 2: " + variable);
                         var parts = variable.Split(new char[] { '=' }, 2);
                         if (parts.Length == 2) {
-                            this.Variables.Add(parts[0], parts[1]);
+                            AddVariable(parts[0], parts[1]);
                         } else {
                             Debug.WriteLine("NVRAM: Asuswrt 2: Cannot parse '" + variable + "'!");
                             return false;
@@ -157,7 +157,7 @@ namespace WrtSettings {
             }
 
             if (Settings.ShowAsuswrt2Random) {
-                this.Variables.Add(".Random", random.ToString(CultureInfo.InvariantCulture));
+                AddVariable(".Random", random.ToString(CultureInfo.InvariantCulture));
             }
 
             this.Format = NvramFormat.AsuswrtVersion2;
@@ -196,7 +196,7 @@ namespace WrtSettings {
                         Debug.WriteLine("NVRAM: Tomato: " + variable);
                         var parts = variable.Split(new char[] { '=' }, 2);
                         if (parts.Length == 2) {
-                            this.Variables.Add(parts[0], parts[1]);
+                            AddVariable(parts[0], parts[1]);
                         } else {
                             Debug.WriteLine("NVRAM: Tomato: Cannot parse '" + variable + "'!");
                             return false;
@@ -207,7 +207,7 @@ namespace WrtSettings {
             }
 
             var hardwareType = ToUInt32(buffer, 4);
-            this.Variables.Add(".HardwareType", hardwareType.ToString(CultureInfo.InvariantCulture));
+            AddVariable(".HardwareType", hardwareType.ToString(CultureInfo.InvariantCulture));
 
             this.Format = NvramFormat.Tomato;
             return true;
@@ -244,7 +244,7 @@ namespace WrtSettings {
 
                 Debug.WriteLine("NVRAM: DDWrt: " + key + "=" + value);
                 count2 += 1;
-                this.Variables.Add(key, value);
+                if (!AddVariable(key, value)) { if (count2 > 1) { count2--; }; } //because we don't add empty entries present in some newer DD-WRT
             }
 
             if (count != count2) {
@@ -264,7 +264,7 @@ namespace WrtSettings {
                 Debug.WriteLine("NVRAM: Text: " + variable);
                 var parts = variable.Split(new char[] { '=' }, 2);
                 if (parts.Length == 2) {
-                    this.Variables.Add(DecodeText(parts[0]), DecodeText(parts[1]));
+                    AddVariable(DecodeText(parts[0]), DecodeText(parts[1]));
                 } else {
                     Debug.WriteLine("NVRAM: Text: Cannot parse '" + variable + "'!");
                     return false;
@@ -460,6 +460,17 @@ namespace WrtSettings {
         }
 
 
+        private bool AddVariable(string key, string value) {
+            if (string.IsNullOrEmpty(key)) { return false; } //newer DD-WRT might have multiple empty key/value pairs
+            if (!this.Variables.ContainsKey(key)) {
+                this.Variables.Add(key, value);
+                return true;
+            } else {
+                this.Variables[key] = value;
+                return false;
+            }
+        }
+
         internal static string EncodeText(string text) {
             var sb = new StringBuilder();
             foreach (var ch in text) {
@@ -494,8 +505,7 @@ namespace WrtSettings {
             var state = DTState.Text;
             foreach (var ch in text) {
                 switch (state) {
-                    case DTState.Text:
-                        {
+                    case DTState.Text: {
                             if (ch == '\\') {
                                 state = DTState.Escape;
                             } else {
@@ -504,8 +514,7 @@ namespace WrtSettings {
                         }
                         break;
 
-                    case DTState.Escape:
-                        {
+                    case DTState.Escape: {
                             switch (ch) {
                                 case 'n': sb.Append("\n"); state = DTState.Text; break;
                                 case 'r': sb.Append("\r"); state = DTState.Text; break;
@@ -519,8 +528,7 @@ namespace WrtSettings {
                         }
                         break;
 
-                    case DTState.EscapeHex:
-                        {
+                    case DTState.EscapeHex: {
                             sbHex.Append(ch);
                             if (sbHex.Length == 2) {
                                 var hex = sbHex.ToString();
