@@ -307,14 +307,17 @@ namespace WrtSettings {
             var buffer = new List<Byte>();
 
             byte rand;
-            if (this.Variables.ContainsKey(".Random")) {
+            if (this.Variables.ContainsKey(".Random")) { //use user's value
                 if (!byte.TryParse(this.Variables[".Random"], NumberStyles.Integer, CultureInfo.InvariantCulture, out rand)) {
                     throw new InvalidOperationException("Invalid predefined random number (.Random)!");
                 }
+                rand %= 30; //limit to 0-29 to match algorithm; might get corrected if it falls in 8-14 range
             } else {
-                rand = (byte)Random.Next(0, 256);
+                rand = (byte)this.Random.Next(0, 30);
             }
-            rand %= 30;
+            while ((rand >= 8) && (rand <= 13)) {  //limiting encryption value to prevent file corruption (https://bitbucket.org/kille72/tomato-arm-kille72/pull-requests/2/mainc-edited-to-fix-random-corruption-of/diff)
+                rand = (byte)this.Random.Next(0, 30);
+            }
 
             foreach (var pair in this.Variables) {
                 if (pair.Key.Equals(".Random", StringComparison.Ordinal)) { continue; } //skip random number
