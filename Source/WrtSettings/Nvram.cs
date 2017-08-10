@@ -369,6 +369,8 @@ namespace WrtSettings {
                 buffer.AddRange(Encoding.ASCII.GetBytes(pair.Key + "=" + pair.Value + "\0"));
             }
 
+            buffer.Add(0); //add one more null byte for end
+
             using (var msOut = new MemoryStream()) {
                 using (var gzStream = new GZipStream(msOut, CompressionMode.Compress)) {
                     gzStream.Write(buffer.ToArray(), 0, buffer.Count);
