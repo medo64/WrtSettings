@@ -3,6 +3,7 @@
 **/Debug
 **/obj
 **/TestResults
+**/.vs
 
 Binaries/**
 Releases/**
