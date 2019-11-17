@@ -9,7 +9,7 @@ SET       FILES_OTHER="..\Binaries\ReadMe.txt" "..\Binaries\License.txt"
 SET   COMPILE_TOOL_16="%PROGRAMFILES(X86)%\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe"
 SET   COMPILE_TOOL_15="%PROGRAMFILES(X86)%\Microsoft Visual Studio\2017\Community\Common7\IDE\devenv.exe"
 
-SET        SETUP_TOOL="%PROGRAMFILES(x86)%\Inno Setup 5\iscc.exe"
+SET        SETUP_TOOL="%PROGRAMFILES(X86)%\Inno Setup 6\iscc.exe"
 
 SET       SIGN_TOOL_1="%PROGRAMFILES(X86)%\Microsoft SDKs\ClickOnce\SignTool\signtool.exe"
 SET       SIGN_TOOL_2="%PROGRAMFILES(X86)%\Windows Kits\10\App Certification Kit\signtool.exe"
