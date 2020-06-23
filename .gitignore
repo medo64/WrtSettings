@@ -9,6 +9,7 @@ Binaries/**
 Releases/**
 Backup/**
 Temporary/**
+Source/packages/**
 
 *.bak
 *.csproj.user
