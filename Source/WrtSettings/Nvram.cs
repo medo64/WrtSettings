@@ -11,21 +11,26 @@ namespace WrtSettings {
 
         public Nvram(string fileName, NvramFormat format) {
             try {
-                byte[] buffer;
-                using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read)) {
-                    buffer = new byte[(int)stream.Length];
-                    stream.Read(buffer, 0, buffer.Length);
-                }
-
                 this.Variables = new Dictionary<string, string>(StringComparer.Ordinal);
 
-                if (((format & NvramFormat.AsuswrtVersion1) != 0) && TryParseAsuswrtVersion1(buffer)) {
-                } else if (((format & NvramFormat.AsuswrtVersion2) != 0) && TryParseAsuswrtVersion2(buffer)) {
-                } else if (((format & NvramFormat.DDWrt) != 0) && TryParseDDWrt(buffer)) {
-                } else if (((format & NvramFormat.Tomato) != 0) && TryParseTomato(buffer)) {
-                } else if (((format & NvramFormat.Text) != 0) && TryParseText(buffer)) {
-                } else {
-                    throw new FormatException("Unrecognized format.");
+                if (fileName != null) {
+                    byte[] buffer;
+                    using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read)) {
+                        buffer = new byte[(int)stream.Length];
+                        stream.Read(buffer, 0, buffer.Length);
+                    }
+
+                    if (((format & NvramFormat.AsuswrtVersion1) != 0) && TryParseAsuswrtVersion1(buffer)) {
+                    } else if (((format & NvramFormat.AsuswrtVersion2) != 0) && TryParseAsuswrtVersion2(buffer)) {
+                    } else if (((format & NvramFormat.DDWrt) != 0) && TryParseDDWrt(buffer)) {
+                    } else if (((format & NvramFormat.Tomato) != 0) && TryParseTomato(buffer)) {
+                    } else if (((format & NvramFormat.Text) != 0) && TryParseText(buffer)) {
+                    } else {
+                        throw new FormatException("Unrecognized format.");
+                    }
+                }
+                else {
+                    this.Format = format;
                 }
                 this.FileName = fileName;
             } catch (FormatException) {
